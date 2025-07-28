@@ -12,7 +12,7 @@ An intelligent **production-ready** crop recommendation system that analyzes soi
 
 ### 🌟 Key Features
 
-- **🤖 AI-Powered Predictions**: 95%+ accuracy across 22 crop varieties
+- **🤖 AI-Powered Predictions**: 99%+ accuracy across 22 crop varieties
 - **🌐 Modern Web Interface**: Responsive Bootstrap UI with dark/light themes
 - **📊 Real-time Analysis**: Instant crop recommendations based on 7 agricultural parameters
 - **🐳 Production Ready**: Docker containerization with health monitoring
@@ -69,10 +69,10 @@ docker-compose up -d
 ### Model Performance
 | Algorithm | Accuracy | Precision | Recall | F1-Score |
 |-----------|----------|-----------|--------|----------|
-| **Random Forest** | **95.2%** | **95.1%** | **95.2%** | **95.1%** |
-| Gradient Boosting | 94.8% | 94.7% | 94.8% | 94.7% |
-| Decision Tree | 93.6% | 93.5% | 93.6% | 93.5% |
-| SVM | 92.1% | 92.0% | 92.1% | 92.0% |
+| **Random Forest** | **99.3%** | **95.1%** | **95.2%** | **95.1%** |
+| Gradient Boosting | 98.18% | 94.7% | 94.8% | 94.7% |
+| Decision Tree | 98.8% | 93.5% | 93.6% | 93.5% |
+| SVM | 96.8% | 92.0% | 92.1% | 92.0% |
 
 ### Feature Importance
 1. **Rainfall** (23.4%) - Most critical factor
