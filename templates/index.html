@@ -1,0 +1,282 @@
+<!doctype html>
+<!-- BRAND NEW TEMPLATE - Testing Cache Issues -->
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>🌾 {% if result and result.success %}{{ result.crop_name }} Recommended{% elif result and result.error %}Error - Try Again{% else %}Smart Crop Recommendation System{% endif %}</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+      :root {
+        --primary-color: #28a745;
+        --secondary-color: #20c997;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --light-bg: linear-gradient(135deg, #e8f5e8 0%, #b8e6b8 50%, #90e090 100%);
+        --dark-bg: linear-gradient(135deg, #1a2332 0%, #2d3748 50%, #1a202c 100%);
+        --light-text: #2d3748;
+        --dark-text: #e2e8f0;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--light-bg);
+        background-attachment: fixed;
+        min-height: 100vh;
+        padding: 20px;
+        color: var(--light-text);
+      }
+
+      [data-bs-theme="dark"] body {
+        background: var(--dark-bg);
+        color: var(--dark-text);
+      }
+
+      .main-container {
+        margin: 0 auto;
+        padding: 40px;
+        border-radius: 25px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        max-width: 1200px;
+      }
+
+      [data-bs-theme="dark"] .main-container {
+        background: rgba(26, 35, 50, 0.95);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .header-title {
+        background: linear-gradient(45deg, #2d8a3e, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      }
+
+      [data-bs-theme="dark"] .header-title {
+        background: linear-gradient(45deg, #48bb78, #38b2ac);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .subtitle {
+        color: #6c757d;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      [data-bs-theme="dark"] .subtitle {
+        color: #a0aec0;
+      }
+
+      .form-control {
+        border-radius: 15px;
+        border: 2px solid #e9ecef;
+        padding: 15px;
+        margin-bottom: 1rem;
+      }
+
+      [data-bs-theme="dark"] .form-control {
+        background-color: rgba(45, 55, 72, 0.9);
+        border-color: #4a5568;
+        color: var(--dark-text);
+      }
+
+      .form-control:focus {
+        border-color: var(--success-color);
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border: none;
+        border-radius: 25px;
+        padding: 15px 30px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: transform 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      }
+
+      .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1050;
+        border-radius: 50px;
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        padding: 10px 15px;
+      }
+
+      .alert-success {
+        border-radius: 15px;
+        border: none;
+        background: linear-gradient(45deg, #d4edda, #c3e6cb);
+      }
+
+      .result-card {
+        margin-top: 2rem;
+        border-radius: 20px;
+        overflow: hidden;
+      }
+    </style>
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="btn theme-toggle" onclick="toggleTheme()" 
+            title="Toggle dark/light mode" aria-label="Toggle theme">
+        <i class="bi bi-moon-fill" id="themeIcon"></i>
+    </button>
+
+    <div class="container-fluid">
+        <div class="main-container">
+            <h1 class="header-title">
+                <i class="bi bi-seedling"></i> Smart Crop Recommendation
+            </h1>
+            <p class="subtitle">
+                <i class="bi bi-cpu"></i> AI-Powered Agricultural Intelligence - NO PROGRESS BAR VERSION
+            </p>
+
+            <form id="cropForm" action="/predict" method="POST">
+                <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                        <label for="nitrogen" class="form-label">Nitrogen (N)</label>
+                        <input type="number" name="Nitrogen" class="form-control" id="nitrogen" 
+                               placeholder="e.g., 90" min="0" max="140" step="1" required>
+                        <small class="text-muted">Range: 0-140 kg/ha</small>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="phosphorus" class="form-label">Phosphorus (P)</label>
+                        <input type="number" name="Phosporus" class="form-control" id="phosphorus" 
+                               placeholder="e.g., 42" min="5" max="145" step="1" required>
+                        <small class="text-muted">Range: 5-145 kg/ha</small>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="potassium" class="form-label">Potassium (K)</label>
+                        <input type="number" name="Potassium" class="form-control" id="potassium" 
+                               placeholder="e.g., 43" min="5" max="205" step="1" required>
+                        <small class="text-muted">Range: 5-205 kg/ha</small>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="temperature" class="form-label">Temperature</label>
+                        <input type="number" name="Temperature" class="form-control" id="temperature" 
+                               placeholder="e.g., 20.8" min="8" max="44" step="0.1" required>
+                        <small class="text-muted">Range: 8-44°C</small>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="humidity" class="form-label">Humidity</label>
+                        <input type="number" name="Humidity" class="form-control" id="humidity" 
+                               placeholder="e.g., 82" min="14" max="100" step="1" required>
+                        <small class="text-muted">Range: 14-100%</small>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="ph" class="form-label">pH Level</label>
+                        <input type="number" name="Ph" class="form-control" id="ph" 
+                               placeholder="e.g., 6.5" min="3.5" max="9.9" step="0.1" required>
+                        <small class="text-muted">Range: 3.5-9.9</small>
+                    </div>
+
+                    <div class="col-12">
+                        <label for="rainfall" class="form-label">Rainfall</label>
+                        <input type="number" name="Rainfall" class="form-control" id="rainfall" 
+                               placeholder="e.g., 202" min="20" max="300" step="1" required>
+                        <small class="text-muted">Range: 20-300mm</small>
+                    </div>
+
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-magic"></i> Get Crop Recommendation
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            {% if result %}
+                <div class="result-card">
+                    {% if result.error %}
+                        <div class="alert alert-danger" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill"></i>
+                            {{ result.message }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success" role="alert">
+                            <div class="text-center">
+                                <h3>{{ result.crop_icon }} {{ result.crop_name }}</h3>
+                                <p>{{ result.message }}</p>
+                                {% if result.image_url %}
+                                    <img src="{{ result.image_url }}" alt="{{ result.crop_name }}" 
+                                         class="img-fluid rounded" style="max-height: 200px;">
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            const icon = document.getElementById('themeIcon');
+            
+            html.setAttribute('data-bs-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            icon.className = newTheme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+        }
+
+        // Load saved theme
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const icon = document.getElementById('themeIcon');
+            
+            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            icon.className = savedTheme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+        });
+
+        // Simple validation
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                const min = parseFloat(this.min);
+                const max = parseFloat(this.max);
+                
+                this.classList.remove('is-valid', 'is-invalid');
+                
+                if (this.value && !isNaN(value)) {
+                    if (value >= min && value <= max) {
+                        this.classList.add('is-valid');
+                    } else {
+                        this.classList.add('is-invalid');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
