@@ -214,7 +214,7 @@
             </form>
 
             {% if result %}
-                <div class="result-card">
+                <div class="result-card" id="resultSection">
                     {% if result.error %}
                         <div class="alert alert-danger" role="alert">
                             <i class="bi bi-exclamation-triangle-fill"></i>
@@ -250,13 +250,25 @@
             icon.className = newTheme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
         }
 
-        // Load saved theme
+        // Load saved theme and auto-scroll to result
         document.addEventListener('DOMContentLoaded', function() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             const icon = document.getElementById('themeIcon');
             
             document.documentElement.setAttribute('data-bs-theme', savedTheme);
             icon.className = savedTheme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill';
+            
+            // Auto-scroll to result section if it exists
+            const resultSection = document.getElementById('resultSection');
+            if (resultSection) {
+                setTimeout(() => {
+                    resultSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start',
+                        inline: 'nearest'
+                    });
+                }, 100); // Small delay to ensure page is fully loaded
+            }
         });
 
         // Simple validation
