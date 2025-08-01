@@ -5,10 +5,13 @@
 [![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.0+-orange.svg)](https://scikit-learn.org/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://docker.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/🌾_Live_Demo-Available-success.svg)](https://crop-recommendation-system-92h3.onrender.com/)
 
 ## 🎯 Overview
 
 An intelligent **production-ready** crop recommendation system that analyzes soil and environmental conditions to suggest optimal crops for farmers. Built with machine learning algorithms and deployed as a modern web application with comprehensive monitoring and scaling capabilities.
+
+**🌟 [Try Live Demo](https://crop-recommendation-system-92h3.onrender.com/)**
 
 ### 🌟 Key Features
 
@@ -192,6 +195,14 @@ python -c "from crop_recommendation_development import test_api_endpoint; test_a
 ```
 
 ## 📦 Production Deployment
+
+**🌟 Live Application**: [https://crop-recommendation-system-92h3.onrender.com/](https://crop-recommendation-system-92h3.onrender.com/)
+
+### Quick Deploy Options
+- **Render** (Free): See [FREE_DEPLOYMENT_GUIDE.md](FREE_DEPLOYMENT_GUIDE.md)
+- **Railway** ($5/month): One-click deployment
+- **Vercel** (Free): Serverless deployment
+- **Docker**: Local/cloud containerized deployment
 
 ### Environment Variables
 ```bash

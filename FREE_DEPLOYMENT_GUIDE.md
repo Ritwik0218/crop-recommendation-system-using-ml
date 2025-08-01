@@ -17,14 +17,14 @@ Render offers excellent free hosting with automatic deployments from GitHub.
      - **Environment**: `Python 3`
      - **Build Command**: `pip install -r requirements.txt`
      - **Start Command**: `python app.py`
-4. **Environment Variables**:
+4. **Environment Variables** (Optional - app has good defaults):
    - `FLASK_ENV`: `production`
-   - `HOST`: `0.0.0.0`
-   - `PORT`: `10000` (Render default)
    - `SECRET_KEY`: Auto-generate
 5. **Deploy**: Click "Create Web Service"
 
 **✅ Your app will be live at**: `https://your-app-name.onrender.com`
+
+**🌟 LIVE EXAMPLE**: `https://crop-recommendation-system-92h3.onrender.com/`
 
 ### 🚂 Option 2: Railway
 
@@ -81,11 +81,9 @@ gcloud run deploy --image gcr.io/PROJECT-ID/crop-app --platform managed
 - `runtime.txt` - Python version specification
 - Updated `requirements.txt` with gunicorn
 
-✅ **Environment Variables**:
+✅ **Environment Variables** (Optional):
 - `FLASK_ENV=production`
 - `SECRET_KEY` (auto-generated)
-- `HOST=0.0.0.0`
-- `PORT` (platform-specific)
 
 ✅ **Security**:
 - Production-ready Flask configuration
@@ -99,11 +97,22 @@ After deployment, your app will be accessible at:
 - **Railway**: `https://crop-recommendation-system.railway.app`
 - **Vercel**: `https://crop-recommendation-system.vercel.app`
 
+**🎉 SUCCESSFULLY DEPLOYED EXAMPLE**: 
+- **Live App**: https://crop-recommendation-system-92h3.onrender.com/
+- **Health Check**: https://crop-recommendation-system-92h3.onrender.com/health
+
 ## 📊 Monitoring & Testing
 
 Once deployed, test these endpoints:
 - **Main App**: `https://your-domain.com/`
 - **Health Check**: `https://your-domain.com/health`
+
+**✅ VERIFIED WORKING EXAMPLE**:
+- **Main App**: https://crop-recommendation-system-92h3.onrender.com/
+- **Health Check**: https://crop-recommendation-system-92h3.onrender.com/health
+  - Status: ✅ Healthy
+  - Models: ✅ Loaded
+  - Version: 2.0.0
 
 ## 🆘 Troubleshooting
 
